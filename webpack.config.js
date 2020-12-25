@@ -21,6 +21,11 @@ module.exports = {
         '@': path.resolve(__dirname, 'src'), 
       },
     }, 
+    optimization: {
+      splitChunks: {
+        chunks: 'all' // создает например для jqwery отдельный файл, вместо того, чтобы дублтровать библиотеку во все 
+      }
+    },
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({ //копирует html и подключает  js
