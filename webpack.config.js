@@ -80,6 +80,17 @@ module.exports = {
             'css-loader',], //загружает  css через импорт в js файлах
           },
           {
+            test: /\.less$/i,
+            use: [{
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                publicPath: 'dist',
+              },
+            },
+            'css-loader',
+            'less-loader'], //загружает  css через импорт в js файлах
+          },
+          {
             test: /\.(png|jpe?g|gif)$/i, 
             use: [
               {

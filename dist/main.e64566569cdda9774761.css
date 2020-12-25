@@ -376,3 +376,14 @@ h1 {
     margin: 0 auto;
     padding: 0;
 }
+.box {
+  padding: 1rem;
+  border-radius: 5px;
+  margin-top: 1rem;
+  border: 1px solid #ccc;
+}
+.box h2 {
+  text-align: center;
+  color: darkblue;
+}
+
