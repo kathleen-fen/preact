@@ -14,6 +14,11 @@ module.exports = {
         filename: '[name].[contenthash].js', //выходной js файл, name - имя входной точки,  contenthash - хэш, каждый раз новый чтобы оличать версии в кэше например
         path: path.resolve(__dirname, 'dist') // dist папка в текущей папке, куда будем складывать бандлы
     },
+    devServer: {// server, 
+      contentBase: path.join(__dirname, 'dist'),
+      compress: true,
+      port: 9000
+    },
     resolve: {
       extensions: ['.js', '.json'], // теперь эти расширения при импорте можно не указывать
       alias: {
