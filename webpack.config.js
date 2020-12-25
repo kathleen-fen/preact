@@ -1,7 +1,27 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // создает index.html в папке dist с подключением js из входных точек
 const path = require('path');// путь к текущей папке
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');// очищает папку dist
+const CopyPlugin = require("copy-webpack-plugin");//статическое копирование файлов
+const MiniCssExtractPlugin = require('mini-css-extract-plugin'); //весь css в один файл
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
+const isDev = process.env.NODE_ENV === 'development';
+const isProd = !isDev;
+//console.log('Is dev', isDev);
+
+const optimization = () => {
+  const config = {
+    splitChunks: {
+      chunks: 'all' // создает например для jqwery отдельный файл, вместо того, чтобы дублтровать библиотеку во все 
+    },
+   
+  };
+  if (isProd) {
+    config.minimizer = [new CssMinimizerPlugin(),];
+    config.minimize = true;
+  }
+  return config
+}
 
 module.exports = {
     context: path.resolve(__dirname,'src'), //папка с исходными файлами
@@ -17,7 +37,8 @@ module.exports = {
     devServer: {// server, 
       contentBase: path.join(__dirname, 'dist'),
       compress: true,
-      port: 9000
+      port: 9000,
+      hot: isDev,
     },
     resolve: {
       extensions: ['.js', '.json'], // теперь эти расширения при импорте можно не указывать
@@ -26,24 +47,37 @@ module.exports = {
         '@': path.resolve(__dirname, 'src'), 
       },
     }, 
-    optimization: {
-      splitChunks: {
-        chunks: 'all' // создает например для jqwery отдельный файл, вместо того, чтобы дублтровать библиотеку во все 
-      }
-    },
+    optimization: optimization(),
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({ //копирует html и подключает  js
          //   title: 'Webpack for Kate', //для хтмл заголовок, не имеет смысла если задан тэмплэйт
-            template: './index.html' // исходный без подключенных js
-        })
+            template: './index.html', // исходный без подключенных js
+            minify: {
+              collapseWhitespace: isProd,// если режим production  то минифицируем html
+            }
+        }),
+        new CopyPlugin({
+          patterns: [
+            { from: path.resolve(__dirname,"src/favicon.ico"), to: path.resolve(__dirname,"dist") },
+          ],
+        }),
+        new MiniCssExtractPlugin({
+          filename: '[name].[contenthash].css',
+        }),
     ],
     //loaders 
     module: {
         rules: [
           {
             test: /\.css$/i,
-            use: ['style-loader', 'css-loader'], //загружает  css через импорт в js файлах
+            use: [{
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                publicPath: 'dist',
+              },
+            },
+            'css-loader',], //загружает  css через импорт в js файлах
           },
           {
             test: /\.(png|jpe?g|gif)$/i, 
