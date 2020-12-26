@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');// очищает
 const CopyPlugin = require("copy-webpack-plugin");//статическое копирование файлов
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); //весь css в один файл
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const { opts } = require('commander');
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
@@ -25,6 +26,19 @@ const optimization = () => {
 
 const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}`; // чтобы не было хэшей при dev сборке
 
+const babelOptions = preset =>  {
+  const opts = {
+    presets: [
+      '@babel/preset-env',
+    ],
+    plugins: ['@babel/plugin-proposal-class-properties'], // плагтн,чтобы использовать классы
+  }
+
+  if(preset) {
+    opts.presets.push(preset);
+  }
+  return  opts;
+}
 
 module.exports = {
     context: path.resolve(__dirname,'src'), //папка с исходными файлами
@@ -141,10 +155,7 @@ module.exports = {
             exclude: /node_modules/,
             use: {
               loader: "babel-loader",
-              options: {
-                presets: ['@babel/preset-env'],
-                plugins: ['@babel/plugin-proposal-class-properties'], // плагтн,чтобы использовать классы
-              }
+              options: babelOptions(),
             }
           },
           {
@@ -152,13 +163,15 @@ module.exports = {
             exclude: /node_modules/,
             use: {
               loader: "babel-loader",
-              options: {
-                presets: [
-                  '@babel/preset-env',
-                  "@babel/preset-typescript"
-                ],
-                plugins: ['@babel/plugin-proposal-class-properties'], // плагтн,чтобы использовать классы
-              }
+              options: babelOptions('@babel/preset-typescript'),
+            }
+          },
+          {
+            test: /\.jsx$/, //babel, чтобы использовать typescrypt
+            exclude: /node_modules/,
+            use: {
+              loader: "babel-loader",
+              options: babelOptions('@babel/preset-react'),
             }
           },
         ],
