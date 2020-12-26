@@ -74,7 +74,7 @@ module.exports = {
             use: [{
               loader: MiniCssExtractPlugin.loader,
               options: {
-                publicPath: 'dist',
+                publicPath: '',
               },
             },
             'css-loader',], //загружает  css через импорт в js файлах
@@ -84,7 +84,7 @@ module.exports = {
             use: [{
               loader: MiniCssExtractPlugin.loader,
               options: {
-                publicPath: 'dist',
+                publicPath: '',
               },
             },
             'css-loader',

@@ -1,22 +1,36 @@
-/*
- * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
- * This devtool is not neither made for production nor for readable output files.
- * It uses "eval()" calls to create a separate source file in the browser devtools.
- * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
- * or disable the default devtool with "devtool: false".
- * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
- */
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./analytics.js":
-/*!**********************!*\
-  !*** ./analytics.js ***!
-  \**********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ 696:
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ \"../node_modules/jquery/dist/jquery.js\");\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);\n\r\n\r\nfunction createAnalytics() {\r\n    let counter = 0;\r\n    let isDestroyed = false;\r\n    const listener = () => counter++;\r\n\r\n    jquery__WEBPACK_IMPORTED_MODULE_0__(document).on('click', listener);\r\n\r\n    return {\r\n        destroy() {\r\n            jquery__WEBPACK_IMPORTED_MODULE_0__(document).off('click', listener);\r\n            isDestroyed = true;\r\n        },\r\n\r\n        getClicks() {\r\n            if (isDestroyed) {\r\n                return 'Analytics is destroyed';\r\n            }\r\n            return counter;\r\n        }\r\n    }\r\n}\r\nwindow.analytics = createAnalytics();\n\n//# sourceURL=webpack:///./analytics.js?");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(638);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function createAnalytics() {
+    let counter = 0;
+    let isDestroyed = false;
+    const listener = () => counter++;
+
+    jquery__WEBPACK_IMPORTED_MODULE_0__(document).on('click', listener);
+
+    return {
+        destroy() {
+            jquery__WEBPACK_IMPORTED_MODULE_0__(document).off('click', listener);
+            isDestroyed = true;
+        },
+
+        getClicks() {
+            if (isDestroyed) {
+                return 'Analytics is destroyed';
+            }
+            return counter;
+        }
+    }
+}
+window.analytics = createAnalytics();
 
 /***/ })
 
@@ -81,17 +95,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var jque
 /******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/jsonp chunk loading */
 /******/ 	(() => {
 /******/ 		// no baseURI
@@ -100,11 +103,11 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var jque
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// Promise = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"analytics": 0
+/******/ 			142: 0
 /******/ 		};
 /******/ 		
 /******/ 		var deferredModules = [
-/******/ 			["./analytics.js","vendors-node_modules_jquery_dist_jquery_js"]
+/******/ 			[696,638]
 /******/ 		];
 /******/ 		// no chunk on demand loading
 /******/ 		
