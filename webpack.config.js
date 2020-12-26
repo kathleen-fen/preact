@@ -23,6 +23,8 @@ const optimization = () => {
   return config
 }
 
+const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}`; // чтобы не было хэшей при dev сборке
+
 module.exports = {
     context: path.resolve(__dirname,'src'), //папка с исходными файлами
     mode:'development', //если не указывать режим в команде webpack будет development, а так в package.json пишем команду dev и build и запускаем npm run dev или build
@@ -31,7 +33,7 @@ module.exports = {
         analytics: './analytics.js'// входная точка
     },
     output: {
-        filename: '[name].[contenthash].js', //выходной js файл, name - имя входной точки,  contenthash - хэш, каждый раз новый чтобы оличать версии в кэше например
+        filename: filename('.js'), //выходной js файл, name - имя входной точки,  contenthash - хэш, каждый раз новый чтобы оличать версии в кэше например
         path: path.resolve(__dirname, 'dist') // dist папка в текущей папке, куда будем складывать бандлы
     },
     devServer: {// server, 
@@ -63,7 +65,7 @@ module.exports = {
           ],
         }),
         new MiniCssExtractPlugin({
-          filename: '[name].[contenthash].css',
+          filename: filename('.css'),
         }),
     ],
     //loaders 
@@ -89,6 +91,20 @@ module.exports = {
             },
             'css-loader',
             'less-loader'], //загружает  css через импорт в js файлах
+          },
+          {
+            test: /\.s[ac]ss$/i,
+            use: [
+              "style-loader",
+              "css-loader",
+              {
+                loader: "sass-loader",
+                options: {
+                  // Prefer `dart-sass`
+                  implementation: require("sass"),
+                },
+              },
+            ],
           },
           {
             test: /\.(png|jpe?g|gif)$/i, 
