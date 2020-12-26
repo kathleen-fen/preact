@@ -13,7 +13,7 @@ import './app.jsx';
 
 
 const post = new Post('Webpack post title', WebpackLogo);
-//$('pre').html(post.toString());
+$('pre').html(post.toString());
 
 
 console.log('post', post.toString());

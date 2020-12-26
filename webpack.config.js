@@ -65,6 +65,7 @@ module.exports = {
       },
     }, 
     optimization: optimization(),
+    devtool: isDev ? 'source-map' : '',//исходные карты
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({ //копирует html и подключает  js
