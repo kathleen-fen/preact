@@ -44,7 +44,7 @@ module.exports = {
     context: path.resolve(__dirname,'src'), //папка с исходными файлами
     mode:'development', //если не указывать режим в команде webpack будет development, а так в package.json пишем команду dev и build и запускаем npm run dev или build
     entry: {
-        main: ['@babel/polyfill', './index.js'], //входная точка + babel polifill чтобы работала async await
+        main: ['@babel/polyfill', './index.jsx'], //входная точка + babel polifill чтобы работала async await, jsx это для react
         analytics: './analytics.ts'// входная точка
     },
     output: {
