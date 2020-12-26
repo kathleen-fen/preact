@@ -25,12 +25,13 @@ const optimization = () => {
 
 const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}`; // чтобы не было хэшей при dev сборке
 
+
 module.exports = {
     context: path.resolve(__dirname,'src'), //папка с исходными файлами
     mode:'development', //если не указывать режим в команде webpack будет development, а так в package.json пишем команду dev и build и запускаем npm run dev или build
     entry: {
-        main: './index.js', //входная точка
-        analytics: './analytics.js'// входная точка
+        main: ['@babel/polyfill', './index.js'], //входная точка + babel polifill чтобы работала async await
+        analytics: './analytics.ts'// входная точка
     },
     output: {
         filename: filename('.js'), //выходной js файл, name - имя входной точки,  contenthash - хэш, каждый раз новый чтобы оличать версии в кэше например
@@ -95,8 +96,13 @@ module.exports = {
           {
             test: /\.s[ac]ss$/i,
             use: [
-              "style-loader",
-              "css-loader",
+              {
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  publicPath: '',
+                },
+              },
+              'css-loader',
               {
                 loader: "sass-loader",
                 options: {
@@ -129,6 +135,31 @@ module.exports = {
           {
             test: /\.(csv|tsv)$/i,
             use: ['csv-loader'],
+          },
+          {
+            test: /\.m?js$/, //babel, чтобы использовать новое в js,которе еще не включено в стандарт
+            exclude: /node_modules/,
+            use: {
+              loader: "babel-loader",
+              options: {
+                presets: ['@babel/preset-env'],
+                plugins: ['@babel/plugin-proposal-class-properties'], // плагтн,чтобы использовать классы
+              }
+            }
+          },
+          {
+            test: /\.ts$/, //babel, чтобы использовать typescrypt
+            exclude: /node_modules/,
+            use: {
+              loader: "babel-loader",
+              options: {
+                presets: [
+                  '@babel/preset-env',
+                  "@babel/preset-typescript"
+                ],
+                plugins: ['@babel/plugin-proposal-class-properties'], // плагтн,чтобы использовать классы
+              }
+            }
           },
         ],
       },
